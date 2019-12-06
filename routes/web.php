@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 Route::any('/test/hello','Test\TestController@hello');
 Route::any('/test/adduser','Test\TestController@adduser');
+Route::any('/weixin','Weinxin\WeixinController@weixin');
