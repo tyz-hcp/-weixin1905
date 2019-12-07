@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Model\UserModel;
 use Illuminate\Http\Request;
+use Illuminate\support\str;
 
 class LoginController extends Controller 
 {
@@ -23,6 +24,9 @@ class LoginController extends Controller
             'email' => $email,
 
         ];
+         
+       // echo '<pre>';print_r($_POST);echo '</pre>';
+
          $uid=  UserModel::insertGetId($data);
          var_dump($uid);
     }
