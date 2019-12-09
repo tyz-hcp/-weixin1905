@@ -29,10 +29,17 @@ class WeixinController extends Controller
         * 接收微信推送事件
          */
         public function receiv(){
-            $log_file="wx.log";
-            //将接受到的数据记录到日志文件
-            $data=json_encode($_POST);
-            file_put_contents($log_file,$data,FILE_APPEND);//追加写;
+            $postSty = file_get_contents("php://input");
+            file_put_contents("1.txt",$postSty);
+            //处理xml格式的数据  将xml格式的数据  转换xml格式的对象
+            $postObj = simplexml_load_string($postSty);
+            echo "<xml>
+                  <ToUserName><![CDATA[toUser]]></ToUserName>
+                  <FromUserName><![CDATA[FromUser]]></FromUserName>
+                  <CreateTime>123456789</CreateTime>
+                  <MsgType><![CDATA[event]]></MsgType>
+                  <Event><![CDATA[subscribe]]></Event>
+                </xml>";die;
         }
         //获取用户基本信息
         public function getuserinfo(){
