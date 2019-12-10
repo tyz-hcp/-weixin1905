@@ -45,5 +45,8 @@ class WeixinController extends Controller
         public function getuserinfo(){
             $url='https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN';
         }
+        public function aaa(){
+            aaaa;
+        }
 
 }
