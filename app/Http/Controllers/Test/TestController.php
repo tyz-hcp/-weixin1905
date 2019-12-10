@@ -11,7 +11,7 @@ class TestController extends Controller
 	{
 		echo "Hello World 1905  aaaaa";
 	}
-}
+
 
 
 
@@ -25,3 +25,6 @@ class TestController extends Controller
 			echo time();echo '</br>';
 			echo date('Y-m-d H:i:s');
 		}
+	
+	
+	}

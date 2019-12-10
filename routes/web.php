@@ -25,5 +25,5 @@ Route::get('/test/adduser','User\LoginController@adduser');
 //微信开发
 
 
-Router::get('/wx','weixi\Wxcontroller@wechat');
-Router::post('/wx','weixi\Wxcontroller@receiv');        //接送微信的推送事件
+Router::get('/wx','WeiXin\Wxcontroller@wechat');
+Router::post('/wx','WeiXin\Wxcontroller@receiv');        //接送微信的推送事件
