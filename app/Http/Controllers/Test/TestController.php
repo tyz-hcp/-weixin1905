@@ -12,3 +12,16 @@ class TestController extends Controller
 		echo "Hello World 1905  aaaaa";
 	}
 }
+
+
+
+
+		public function redisa1()
+		{
+			$key = 'weixin';
+			$val = 'hello world';
+			Redis::set($key,$val);
+
+			echo time();echo '</br>';
+			echo date('Y-m-d H:i:s');
+		}
