@@ -16,5 +16,5 @@ Route::get('/', function () {
 });
 Route::any('/test/hello','Test\TestController@hello');
 Route::any('/test/adduser','Test\TestController@adduser');
-Route::any('/weixin','Weixin\WeixinController@weixin');
-Route::any('/wx','Weixin\WeixinController@receiv');
+Route::get('/weixin','Weixin\WeixinController@weixin');
+Route::post('/weixin','Weixin\WeixinController@receiv');

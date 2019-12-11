@@ -28,19 +28,41 @@ class WeixinController extends Controller
         /*
         * 接收微信推送事件
          */
-        public function receiv(){
-            $postSty = file_get_contents("php://input");
-            file_put_contents("1.txt",$postSty);
-            //处理xml格式的数据  将xml格式的数据  转换xml格式的对象
-            $postObj = simplexml_load_string($postSty);
-            echo "<xml>
-                  <ToUserName><![CDATA[toUser]]></ToUserName>
-                  <FromUserName><![CDATA[FromUser]]></FromUserName>
-                  <CreateTime>123456789</CreateTime>
-                  <MsgType><![CDATA[event]]></MsgType>
-                  <Event><![CDATA[subscribe]]></Event>
-                </xml>";die;
-        }
+
+            public  function  receiv(){
+                $log_file="wx.log";
+                $xml_str=file_get_contents("php://input");
+                //将接收的"数据记录到日志文件
+                $data=date("Y-m-d H:i:s").$xml_str;
+                file_put_contents($log_file,$data,FILE_APPEND);
+                //处理xml数据
+                $xml_obj=simplexml_load_string($xml_str);
+                $event=$xml_obj->Event; //类型
+                if($event=='subscribe'){
+                    $openid=$xml_obj->FromUserName;    //获取用户的openid
+                    $url='https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$this->access_token.'&openid='.$openid.'&lang=zh_CN';
+                    $user_info=file_get_contents($url);
+                    file_put_contents("wx_user.log",$user_info,FILE_APPEND);
+                }
+                //判断消息类型
+                $msg_type = $xml_obj->MsgType;
+                $touser = $xml_obj->FromUserName;           //接收消息得到用户openid
+                $formuser = $xml_obj->ToUserName;           //自己开发的公众号的id
+                $time = time();
+                if($msg_type=='text'){
+                    $content = date('Y-m-d H:i:s').$xml_obj->Content;
+                    $response_text = '<xml>
+                <ToUserName><![CDATA['.$touser.']]></ToUserName>
+                <FromUserName><![CDATA['.$formuser.']]></FromUserName>
+                <CreateTime>'.$time.'</CreateTime>
+                <MsgType><![CDATA[text]]></MsgType>
+                <Content><![CDATA['.$content.']]></Content>
+                </xml>
+                ';
+                    echo $response_text;        //回复用户消息
+                }
+            }
+
         //获取用户基本信息
         public function getuserinfo(){
             $url='https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN';
