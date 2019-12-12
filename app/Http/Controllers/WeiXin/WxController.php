@@ -21,32 +21,33 @@ class WxController extends Controller
 
         $tmpArr = array($token, $timestamp, $nonce);
         sort($tmpArr, SORT_STRING);
-        $tmpStr = implode( $tmpArr );
-        $tmpStr = sha1( $tmpStr );
+        $tmpStr = implode($tmpArr);
+        $tmpStr = sha1($tmpStr);
 
-        if( $tmpStr == $signature ){    //验证通过
+        if ($tmpStr == $signature) {    //验证通过
             echo $echostr;
-        }else{
+        } else {
             die("not ok");
         }
     }
 
 
-    /*
-        接收微信推送事件
-*/
+
+      //  接收微信推送事件
+
     public function receiv()
     {
-        $log_file = "wx.log";
+        $log_file = "wx.log";   //public
         //将接收的数据记录到日志文件
-        $data = json_encode($_POST);
-        file_put_contents($log_file,$data,FILE_APPEND);   //追加写
+        $data = data('Y-m-d H-i-s') . json_encode($_POST);
+        file_put_contents($log_file, $data, FILE_APPEND);   //追加写
     }
 
 
 
 
-        获取用户基本信息
+
+       // 获取用户基本信息
 
     public function getUserInfo()
     {
@@ -55,5 +56,5 @@ class WxController extends Controller
 
 
     }
-    */
+
 }
