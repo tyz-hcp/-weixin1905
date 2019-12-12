@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Weixin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Model\WxUsermodel;
 
 class WeixinController extends Controller
 {
@@ -40,9 +41,22 @@ class WeixinController extends Controller
                 $event=$xml_obj->Event; //类型
                 if($event=='subscribe'){
                     $openid=$xml_obj->FromUserName;    //获取用户的openid
-                    $url='https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$this->access_token.'&openid='.$openid.'&lang=zh_CN';
-                    $user_info=file_get_contents($url);
-                    file_put_contents("wx_user.log",$user_info,FILE_APPEND);
+                    //判断用户是否已经存在
+                    $u=WxUsermodel::where(['openid'=>$openid])->first();
+                    if($u){
+                        //TODO 欢迎回来
+                        echo "欢迎回来";die;
+                    }else{
+                        $user_data=[
+                            'openid' => $openid,
+                            'sub_time'=>$xml_obj->CreateTime,
+                        ];
+
+                        //openid 入库
+                        $uid= WxUsermodel::insertGetId($user_data);
+                        var_dump($uid);die;
+                    }
+
                 }
                 //判断消息类型
                 $msg_type = $xml_obj->MsgType;
