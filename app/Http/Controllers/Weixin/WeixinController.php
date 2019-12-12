@@ -72,7 +72,7 @@ class WeixinController extends Controller
                         $u=json_decode($user_info,true);
                         $user_data=[
                             'openid'    => $openid,
-                            'nickname'  =>$u[nickname],
+                            'nickname'  =>$u['nickname'],
                             'sex'        =>$u['sex'],
                             'headimgurl'=>$u['headimgurl'],
                             'subscribe_time'=>$u['subscribe_time']
