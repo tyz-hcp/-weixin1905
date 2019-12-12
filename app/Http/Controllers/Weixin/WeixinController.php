@@ -8,7 +8,18 @@ use App\Model\WxUsermodel;
 
 class WeixinController extends Controller
 {
+        protected $access_token;
 
+        public function __construct(){
+            //获取access_token
+            $this->access_token=$this->getAccessToken();
+        }
+        public function getAccessToken(){
+            $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.env('WX_APPID').'&secret='.env('WX_APPSECRET');
+            $data_json = file_get_contents($url);
+            $arr = json_decode($data_json,true);
+            return $arr['access_token'];
+        }
         public function weixin()
         {
             $signature = $_GET["signature"];
@@ -45,7 +56,6 @@ class WeixinController extends Controller
                     $u=WxUsermodel::where(['openid'=>$openid])->first();
                     if($u){
                         $msg='欢迎回来';
-                        //TODO 欢迎回来
                         $xml='<xml>
                               <ToUserName><![CDATA['.$openid.']]></ToUserName>
                               <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
