@@ -34,7 +34,7 @@ class WeixinController extends Controller
                 $log_file="wx.log";
                 $xml_str=file_get_contents("php://input");
                 //将接收的"数据记录到日志文件
-                $data=date("Y-m-d H:i:s").$xml_str;
+                $data=date("Y-m-d H:i:s").">>>>>>>\n".$xml_str."\n\n";
                 file_put_contents($log_file,$data,FILE_APPEND);
                 //处理xml数据
                 $xml_obj=simplexml_load_string($xml_str);
@@ -44,17 +44,44 @@ class WeixinController extends Controller
                     //判断用户是否已经存在
                     $u=WxUsermodel::where(['openid'=>$openid])->first();
                     if($u){
+                        $msg='欢迎回来';
                         //TODO 欢迎回来
-                        echo "欢迎回来";die;
+                        $xml='<xml>
+                              <ToUserName><![CDATA['.$openid.']]></ToUserName>
+                              <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
+                              <CreateTime>'.time().'</CreateTime>
+                              <MsgType><![CDATA[text]]></MsgType>
+                              <Content><![CDATA['.$msg.']]></Content>
+                            </xml>';
+                        echo $xml;
                     }else{
+
+                        //获取用户信息
+                        $url='https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$this->access_token.'&openid='.$openid.'&lang=zh_CN';
+                        $user_info=file_get_contents($url);
+                        $u=json_decode($user_info,true);
                         $user_data=[
                             'openid' => $openid,
-                            'sub_time'=>$xml_obj->CreateTime,
+                            'nickname'=>$u[nickname],
+                            'sex'=>$u['sex'],
+                            'headimgurl'=>$u['headimgurl'],
+                            'subscribe_time'=>$u['subscribe_time']
                         ];
+                        $log_content=data('Y-m-d H:i:s').">>>>>".$user_info."\n";
+                        file_put_contents("wx_user.log",$user_info,FILE_APPEND);
 
                         //openid 入库
                         $uid= WxUsermodel::insertGetId($user_data);
-                        var_dump($uid);die;
+                        //回复用户关注
+                        $msg="谢谢关注";
+                        $xml='<xml>
+                              <ToUserName><![CDATA['.$openid.']]></ToUserName>
+                              <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
+                              <CreateTime>'.time().'</CreateTime>
+                              <MsgType><![CDATA[text]]></MsgType>
+                              <Content><![CDATA['.$msg.']]></Content>
+                            </xml>';
+                        echo $xml;
                     }
 
                 }
