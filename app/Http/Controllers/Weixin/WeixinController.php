@@ -61,14 +61,14 @@ class WeixinController extends Controller
                         $user_info=file_get_contents($url);
                         $u=json_decode($user_info,true);
                         $user_data=[
-                            'openid' => $openid,
-                            'nickname'=>$u[nickname],
-                            'sex'=>$u['sex'],
+                            'openid'    => $openid,
+                            'nickname'  =>$u[nickname],
+                            'sex'        =>$u['sex'],
                             'headimgurl'=>$u['headimgurl'],
                             'subscribe_time'=>$u['subscribe_time']
                         ];
-                        $log_content=data('Y-m-d H:i:s').">>>>>".$user_info."\n";
-                        file_put_contents("wx_user.log",$user_info,FILE_APPEND);
+//                        $log_content=data('Y-m-d H:i:s').">>>>>".$user_info."\n";
+//                        file_put_contents("wx_user.log",$user_info,FILE_APPEND);
 
                         //openid 入库
                         $uid= WxUsermodel::insertGetId($user_data);
