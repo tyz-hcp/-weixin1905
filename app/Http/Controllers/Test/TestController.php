@@ -10,7 +10,7 @@ use App\Model\WxUsermodel;
 class TestController extends Controller
 {
     public function hello(){
-        echo "hello World123131231321";
+       phpinfo();
     }
 
     public function adduser(){
