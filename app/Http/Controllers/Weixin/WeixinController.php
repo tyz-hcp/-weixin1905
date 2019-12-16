@@ -205,11 +205,11 @@ class WeixinController extends Controller
                 $save_path = $save_path . '/imgs/' . $file_name;
             }elseif($media_type=='voice'){  //保存语音文件
                 $file_name = date('YmdHis').mt_rand(11111,99999) . $extension;
-                $save_path = $save_path . '/voice/' . $file_name;
+                $save_path = $save_path . 'voice/' . $file_name;
             }elseif($media_type=='video')
             {
                 $file_name = date('YmdHis').mt_rand(11111,99999) . $extension;
-                $save_path = $save_path . '/video/' . $file_name;
+                $save_path = $save_path . 'video/' . $file_name;
             }
             file_put_contents($save_path,$file_content);
         }
