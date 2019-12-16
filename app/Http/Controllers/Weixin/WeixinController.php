@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Weixin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\WxUsermodel;
+use App\Model\MessageModel;
 use Illuminate\Support\Facades\Redis;
 use GuzzleHttp\Client;
 class WeixinController extends Controller
@@ -122,7 +123,12 @@ class WeixinController extends Controller
                 ';
                     echo $response_text;        //回复用户消息
                     // TODO消息入库
-
+                    $content =substr($content,'19');
+                $data=[
+                    'desc'=>$content,
+                    'created_at'=>time()
+                ];
+                    $res= MessageModel::insertGetId($data);
                 }elseif($msg_type=='image'){  //图片消息
                     //TODO 下载图片
                     $this->getMedia2($media_id,$msg_type);
@@ -187,6 +193,8 @@ class WeixinController extends Controller
         }
         public function getmedia2($media_id,$media_type){
             $url = 'https://api.weixin.qq.com/cgi-bin/media/get?access_token='.$this->access_token.'&media_id='.$media_id;
+
+
             //获取素材内容
             $client = new Client();
             $response=$client->request('GET',$url);
