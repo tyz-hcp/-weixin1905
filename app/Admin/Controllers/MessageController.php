@@ -28,7 +28,11 @@ class MessageController extends AdminController
 
         $grid->column('id', __('Id'));
         $grid->column('desc', __('Desc'));
-        $grid->column('created_at', __('Created at'));
+        $grid->column('created_at', __('添加时间'));
+        $grid->column('nickname', __('昵称'));
+        $grid->column('headimgurl', __('头像'))->display(function($img){
+            return '<img src="'.$img.'">';
+        });
 
         return $grid;
     }
@@ -46,6 +50,8 @@ class MessageController extends AdminController
         $show->field('id', __('Id'));
         $show->field('desc', __('Desc'));
         $show->field('created_at', __('Created at'));
+        $show->field('nickname', __('Nickname'));
+        $show->field('headimgurl', __('Headimgurl'));
 
         return $show;
     }
@@ -60,6 +66,8 @@ class MessageController extends AdminController
         $form = new Form(new MessageModel);
 
         $form->text('desc', __('Desc'));
+        $form->text('nickname', __('Nickname'));
+        $form->text('headimgurl', __('Headimgurl'));
 
         return $form;
     }
