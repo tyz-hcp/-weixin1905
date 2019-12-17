@@ -60,8 +60,9 @@ class WeixinController extends Controller
                 //处理xml数据
                 $xml_obj=simplexml_load_string($xml_str);
                 $event=$xml_obj->Event; //类型
+                $openid=$xml_obj->FromUserName;    //获取用户的openid
                 if($event=='subscribe'){
-                    $openid=$xml_obj->FromUserName;    //获取用户的openid
+
                     //判断用户是否已经存在
                     $u=WxUsermodel::where(['openid'=>$openid])->first();
                     if($u){
@@ -104,13 +105,26 @@ class WeixinController extends Controller
                         echo $xml;
                     }
 
+                }elseif($event=='CLICK'){
+                    if($xml_obj->EventKey=='weather'){
+                        $xmll='<xml>
+                              <ToUserName><![CDATA['.$openid.']]></ToUserName>
+                              <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
+                              <CreateTime>'.time().'</CreateTime>
+                              <MsgType><![CDATA[text]]></MsgType>
+                              <Content><![CDATA[晴天]]></Content>
+                            </xml>';
+                        echo $xmll;
+                    }
                 }
                 //判断消息类型
                 $msg_type = $xml_obj->MsgType;
                 $touser = $xml_obj->FromUserName;           //接收消息得到用户openid
+
                 $fromuser = $xml_obj->ToUserName;           //自己开发的公众号的id
                 $time = time();
                 $media_id=$xml_obj->MediaId;
+
                 if($msg_type=='text'){
                     $content = date('Y-m-d H:i:s').$xml_obj->Content;
                     $response_text = '<xml>
@@ -124,11 +138,20 @@ class WeixinController extends Controller
                     echo $response_text;        //回复用户消息
                     // TODO消息入库
                     $content =substr($content,'19');
-                $data=[
+//                   $xml_obj=simplexml_load_string($response_text);
+                    $openid=$xml_obj->FromUserName;
+                    $url='https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$this->access_token.'&openid='.$openid.'&lang=zh_CN';
+                    $user_info=file_get_contents($url);
+                    $u=json_decode($user_info,true);
+              $data=[
                     'desc'=>$content,
-                    'created_at'=>time()
+                    'created_at'=>time(),
+                  'nickname'  =>$u['nickname'],
+                  'headimgurl'=>$u['headimgurl']
                 ];
+
                     $res= MessageModel::insertGetId($data);
+
                 }elseif($msg_type=='image'){  //图片消息
                     //TODO 下载图片
                     $this->getMedia2($media_id,$msg_type);
@@ -229,5 +252,25 @@ class WeixinController extends Controller
         $key = 'wx_access_token';
         Redis::del($key);
         echo $this->getAccessToken();
+    }
+
+
+    //创建自定义菜单
+    public function createmenu(){
+        //创建自定义菜单的接口地址
+        $url='https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$this->access_token;
+        $menu=[
+            'button'=>[
+                [
+                    'type'=> 'click',
+                    'name'=>'获取天气',
+                    'key'=>'weather'
+                ]
+            ]
+        ];
+        $menu_json=json_encode($menu,JSON_UNESCAPED_UNICODE);
+        $client=new Client();
+        $response=$client->request('post',$url,['body'=>$menu_json]);
+        echo $response->getBody();
     }
 }
