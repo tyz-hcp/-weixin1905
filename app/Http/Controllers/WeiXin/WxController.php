@@ -264,6 +264,11 @@ class WxController extends Controller
                     'name'  => '获取天气',
                     'key'   => 'weather'
                 ],
+                [
+                    'type'  => 'click',
+                    'name'  => '获取天气',
+                    'key'   => 'weather'
+                ],
             ]
         ];
         $menu_json = json_encode($menu,JSON_UNESCAPED_UNICODE);
