@@ -26,5 +26,5 @@ route::get('/tets/xml','TestController@xmlTest');
 //微信开发
 
 
-Route::get('/wx','WeiXin\WxController@wechat');
+Route::get('/wx','WeiXin\WxController@weixin');
 Route::post('/wx','WeiXin\WxController@receiv');        //接送微信的推送事件
