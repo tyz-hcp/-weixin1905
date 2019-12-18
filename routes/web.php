@@ -23,5 +23,7 @@ Route::get('/weixin/media','Weixin\WeixinController@getmedia');
 Route::get('/weixin/info','Weixin\WeixinController@info');
 Route::get('/token','Weixin\WeixinController@flushAccessToken');
 
-
+//微信公众号
 Route::get('/weixin/menu','Weixin\WeixinController@createmenu');
+
+Route::get('/vote','VoteController@index');//微信投票
