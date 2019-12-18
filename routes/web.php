@@ -20,6 +20,7 @@ Route::get('/info',function(){
 });
 Route::get('/test/hello','Test\TestController@hello');
 Route::get('/test/adduser','User\LoginController@adduser');
+route::get('/tets/xml','TestController@xmlTest');
 
 
 //微信开发
