@@ -265,9 +265,9 @@ class WxController extends Controller
                     'key'   => 'weather'
                 ],
                 [
-                    'type'  => 'click',
-                    'name'  => '获取天气',
-                    'key'   => 'weather'
+                    'type'  => 'view',
+                    'name'  => '首页',
+                    'key'   => 'http://1905tianyanzhao.comcto.com'
                 ],
             ]
         ];
