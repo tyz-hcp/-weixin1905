@@ -32,7 +32,7 @@ class VoteController extends Controller
         $members = Redis::zRange($key,0,-1,true); //获取所有投票人的openid
         foreach($members as $k=>$v){
             $u_k='h:u:'.$k;
-            $u=Redis::hgetall($u_k);
+            $u=Redis::hgetAll($u_k);
             echo '<img src="'.$u['headimgurl'].'">';
             //echo '用户 :'.$k.'投票时间: '.date('Y-m-d H:i:s',$v);echo '</br>';
         }
