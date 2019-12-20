@@ -282,12 +282,12 @@ class WeixinController extends Controller
                 [
                     'type'=> 'view',
                     'name'=>'投票',
-                    'url'=>'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe17b56b8edc08611&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_userinfo&state=ABCD1905#wechat_redirect'
+                    'url'=>'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.env('WX_APPID').'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_userinfo&state=ABCD1905#wechat_redirect'
                 ],
                 [
                     'type'=> 'view',
                     'name'=>'商城',
-                    'url'=>'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe17b56b8edc08611&redirect_uri='.$redirect_uri2.'&response_type=code&scope=snsapi_userinfo&state=ABCD1905#wechat_redirect'
+                    'url'=>'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.env('WX_APPID').'&redirect_uri='.$redirect_uri2.'&response_type=code&scope=snsapi_userinfo&state=ABCD1905#wechat_redirect'
                 ]
             ]
         ];
