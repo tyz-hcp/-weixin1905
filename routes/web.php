@@ -22,10 +22,10 @@ Route::get('/','Index\IndexController@Index');  //网站首页
 Route::any('/test/hello','Test\TestController@hello');
 Route::any('/test/adduser','Test\TestController@adduser');
 
-Route::get('/weixin','Weixin\WeixinController@weixin');
-Route::post('/weixin','Weixin\WeixinController@receiv');
-Route::get('/weixin/media','Weixin\WeixinController@getmedia');
-Route::get('/weixin/info','Weixin\WeixinController@info');
+Route::get('/wx','Weixin\WeixinController@wechat');
+Route::post('/wx','Weixin\WeixinController@receiv');
+Route::get('/wx/media','Weixin\WeixinController@getmedia');
+Route::get('/wx/info','Weixin\WeixinController@info');
 Route::get('/token','Weixin\WeixinController@flushAccessToken');
 
 //微信公众号
