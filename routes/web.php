@@ -16,6 +16,9 @@
 //});
 
 Route::get('/','Index\IndexController@Index');  //网站首页
+Route::get('/phpinfo',function(){
+    phpinfo();
+});  //网站首页
 
 
 
