@@ -266,8 +266,8 @@ class WeixinController extends Controller
 
     //创建自定义菜单
     public function createmenu(){
-        $url='http://1905yuyongpan.comcto.com/vote';
-        $url2='http://1905yuyongpan.comcto.com';
+        $url='http://1905tianyanzhao.comcto.com/vote';
+        $url2='http://1905tianyanzhao.comcto.com';
         $redirect_uri=urlencode($url);
         $redirect_uri2=urlencode($url2);
         //创建自定义菜单的接口地址
