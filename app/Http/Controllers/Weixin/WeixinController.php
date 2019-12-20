@@ -30,12 +30,12 @@ class WeixinController extends Controller
             Redis::expire($key,3600);
             return $arr['access_token'];
         }
-        public function wechat()
+        public function weixin()
         {
             $signature = $_GET["signature"];
             $timestamp = $_GET["timestamp"];
             $nonce = $_GET["nonce"];
-            $token = '76b8fd82c97b80f0b4e23;
+            $token = '76b8fd82c97b80f0b4e23';
             $tmpArr = array($token, $timestamp, $nonce);
             sort($tmpArr, SORT_STRING);
             $tmpStr = implode( $tmpArr );
